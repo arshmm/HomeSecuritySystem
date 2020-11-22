@@ -1,7 +1,7 @@
 import requests
 import json
 
-url = 'http://localhost:5000/'
+url = 'http://localhost:5000/user'
 
 correct_payload = {'username': 'hello', 'password': 'p4$$w0rd!'}
 
