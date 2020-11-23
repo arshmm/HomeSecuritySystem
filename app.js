@@ -20,7 +20,7 @@ mongoose
   .catch((err) => console.log(err));
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(bodyParser.json({ limit: "100mb" }));
 app.use(cookieParser());
 //=====================================================================================================================
 //Routes
