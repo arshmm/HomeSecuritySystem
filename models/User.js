@@ -14,7 +14,6 @@ const UserSchema = new mongoose.Schema({
     required: [true, "Password not valid"],
     minlength: [6, "Minimum length should be 6 characters"],
   },
-  image: { data: Buffer, contentType: String },
 });
 
 //Mongodb Hook

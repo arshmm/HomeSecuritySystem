@@ -45,7 +45,6 @@ while True:
     json_data = {}
 
     for encoding, location in zip(encodeCamImage, locationCamImage):
-        count = 0
         matches = face_recognition.compare_faces(known_encodings, encoding)
         distance = face_recognition.face_distance(known_encodings, encoding)
         # print(distance)
@@ -59,8 +58,8 @@ while True:
             # json_data['picture_array'] = camImg.tolist()
             r = requests.post(
                 url="http://127.0.0.1:5000/api/user/recieve_data", json=json_data)
-            print("Status: ", r)
-        elif count == 0:
+            print("Status: ", r.status_code)
+        else:
             name = "unknown"
             json_data["name"] = name
             json_data['hour'] = f'{time.localtime().tm_hour}:{time.localtime().tm_min}'
@@ -68,10 +67,7 @@ while True:
             cv2.imwrite("unknown_images/unknown.jpg", img)
             r = requests.post(
                 url="http://127.0.0.1:5000/api/user/recieve_data", json=json_data)
-            print("Status: ", r)
-            count += 1
-        else:
-            name = "unknown"
+            print("Status: ", r.status_code)
 
         y1, x2, y2, x1 = location
       # y1, x2, y2, x1 = y1*4, x2*4, y2*4, x1*4
