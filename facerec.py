@@ -29,7 +29,8 @@ known_encodings = findEncoding(images)
 print('Encodings done')
 
 webcam = cv2.VideoCapture(0)
-
+count = 0
+timer = 0
 while True:
     success, img = webcam.read()
     # camImg = cv2.resize(img, (0, 0), None, 0.25, 0.25)
@@ -61,13 +62,18 @@ while True:
             print("Status: ", r.status_code)
         else:
             name = "unknown"
-            json_data["name"] = name
-            json_data['hour'] = f'{time.localtime().tm_hour}:{time.localtime().tm_min}'
-            json_data['date'] = f'{time.localtime().tm_year}-{time.localtime().tm_mon}-{time.localtime().tm_mday}'
-            cv2.imwrite("unknown_images/unknown.jpg", img)
-            r = requests.post(
-                url="http://127.0.0.1:5000/api/user/recieve_data", json=json_data)
-            print("Status: ", r.status_code)
+            if(timer > 50):
+                timer = 0
+            if(timer == 0):
+                json_data["name"] = name + str(count)
+                json_data['hour'] = f'{time.localtime().tm_hour}:{time.localtime().tm_min}'
+                json_data['date'] = f'{time.localtime().tm_year}-{time.localtime().tm_mon}-{time.localtime().tm_mday}'
+                cv2.imwrite("unknown_images/unknown_%d.jpg" % count,  img)
+                r = requests.post(
+                    url="http://127.0.0.1:5000/api/user/recieve_data", json=json_data)
+                count += 1
+                print("Status: ", r.status_code)
+            timer += 1
 
         y1, x2, y2, x1 = location
       # y1, x2, y2, x1 = y1*4, x2*4, y2*4, x1*4
@@ -76,4 +82,6 @@ while True:
                     cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 1)
 
     cv2.imshow('webcam', img)
-    cv2.waitKey(1)
+    if cv2.waitKey(10) == ord('q'):  # wait until 'q' key is pressed
+        webcam.release()
+        cv2.destroyAllWindows()

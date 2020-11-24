@@ -5,7 +5,7 @@ const DetectionSchema = new mongoose.Schema({
     type: String,
   },
   time: {
-    type: Date,
+    type: String,
   },
 });
 
