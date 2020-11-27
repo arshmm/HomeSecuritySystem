@@ -4,13 +4,14 @@ const { use } = require("../routes/userRoutes");
 //--------------------------------------------------------------------------
 module.exports.signup_post = async (req, res) => {
   const data = {
+    name: req.body.name,
     email: req.body.email,
     password: req.body.password,
   };
   try {
     const user = await User.create(data);
     const token = createToken(user._id);
-    res.status(201).json({ user: user._id, token });
+    res.status(201).json({ id: user._id, token });
   } catch (er) {
     const errors = handleError(er);
     res.status(400).json(errors);
