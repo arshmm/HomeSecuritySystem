@@ -17,6 +17,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
+import { withRouter } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,9 +47,12 @@ const Layout = (props) => {
   const drawerToggle = () => {
     setDrawer(!drawer);
   };
+  const sendToUser = () => {
+    props.history.push("/users");
+  };
   return (
     <Fragment>
-      <div onClick={drawerToggle} className={classes.root}>
+      <div /* onClick={drawerToggle} */ className={classes.root}>
         <AppBar position="static">
           <Toolbar>
             <IconButton onClick={drawerToggle}>
@@ -70,7 +74,7 @@ const Layout = (props) => {
           <Divider />
           <div className={classes.listIt}>
             <List>
-              <ListItem>
+              <ListItem onClick={sendToUser}>
                 <ListItemIcon>
                   <InboxIcon />
                 </ListItemIcon>
@@ -99,4 +103,4 @@ const Layout = (props) => {
   );
 };
 
-export default Layout;
+export default withRouter(Layout);

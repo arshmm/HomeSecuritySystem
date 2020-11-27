@@ -6,28 +6,28 @@ import {
   Paper,
   TextField,
 } from "@material-ui/core";
+import { signup } from "../../store/actions";
 import { useSelector, useDispatch } from "react-redux";
-import { login } from "../../store/actions";
 
-const Login = (props) => {
+const Signup = (props) => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const loginData = useSelector((state) => state.login);
-  const { loading, user, error } = loginData;
+  const signupData = useSelector((state) => state.signup);
+  const { loading, user, error } = signupData;
   const dispatch = useDispatch();
-
   useEffect(() => {
     if (user) {
       props.history.push("/dashboard");
     }
     return () => {
-      //cleanup
+      //
     };
   }, [user]);
 
-  const onSubmit = async (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(login(email, password));
+    dispatch(signup(name, email, password));
   };
   return (
     <Container maxWidth="sm" style={{ paddingTop: "10rem" }}>
@@ -36,7 +36,16 @@ const Login = (props) => {
           <FormControl style={{ width: "100%" }}>
             <TextField
               style={{ margin: "1rem" }}
-              label="Username"
+              label="Name"
+              type="text"
+              variant="outlined"
+              onChange={(e) => setName(e.target.value)}
+            />
+          </FormControl>
+          <FormControl style={{ width: "100%" }}>
+            <TextField
+              style={{ margin: "1rem" }}
+              label="email"
               type="text"
               variant="outlined"
               onChange={(e) => setEmail(e.target.value)}
@@ -57,23 +66,12 @@ const Login = (props) => {
             variant="outlined"
             color="primary"
           >
-            Login
+            Signup
           </Button>
         </form>
-        <p style={{ margin: "1rem 18rem" }}>OR</p>
-        <Button
-          style={{ margin: "1rem 10rem", width: "50%" }}
-          variant="outlined"
-          color="primary"
-          onClick={() => {
-            props.history.push("/signup");
-          }}
-        >
-          SignUp
-        </Button>
       </Paper>
     </Container>
   );
 };
 
-export default Login;
+export default Signup;
