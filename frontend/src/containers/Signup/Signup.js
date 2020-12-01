@@ -8,23 +8,22 @@ import {
 } from "@material-ui/core";
 import { signup } from "../../store/actions";
 import { useSelector, useDispatch } from "react-redux";
+import useRequest from "../../utils/request";
 
 const Signup = (props) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const signupData = useSelector((state) => state.signup);
-  const { loading, user, error } = signupData;
   const dispatch = useDispatch();
+  const token = useRequest();
   useEffect(() => {
-    if (user) {
+    if (token) {
       props.history.push("/dashboard");
     }
     return () => {
       //
     };
-  }, [user]);
-
+  }, [token]);
   const onSubmit = (e) => {
     e.preventDefault();
     dispatch(signup(name, email, password));

@@ -12,12 +12,15 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Button,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import { withRouter } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../../store/actions";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,57 +47,80 @@ const useStyles = makeStyles((theme) => ({
 const Layout = (props) => {
   const [drawer, setDrawer] = useState(false);
   const classes = useStyles();
+  const dispatch = useDispatch();
   const drawerToggle = () => {
+    console.log("butondt");
+
     setDrawer(!drawer);
   };
   const sendToUser = () => {
     props.history.push("/users");
   };
+  const logoutBtn = () => {
+    dispatch(logout());
+  };
   return (
     <Fragment>
-      <div /* onClick={drawerToggle} */ className={classes.root}>
+      <div className={classes.root}>
         <AppBar position="static">
           <Toolbar>
-            <IconButton onClick={drawerToggle}>
+            <IconButton
+              edge="start"
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="menu"
+              onClick={drawerToggle}
+            >
+              {console.log("butond")}
               <MenuIcon />
             </IconButton>
+            <Typography variant="h6" className={classes.title}>
+              HomeSec
+            </Typography>
+            <Button color="inherit" onClick={logoutBtn}>
+              {console.log("buton")}
+              Login
+            </Button>
           </Toolbar>
         </AppBar>
-        <Drawer anchor="left" open={drawer}>
-          <div className={classes.toolbarHeader}>
-            {drawer && (
-              <Typography variant="h6" noWrap>
-                HomeSec
-              </Typography>
-            )}
-            <IconButton onClick={drawerToggle}>
-              {drawer ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-            </IconButton>
-          </div>
-          <Divider />
-          <div className={classes.listIt}>
-            <List>
-              <ListItem onClick={sendToUser}>
-                <ListItemIcon>
-                  <InboxIcon />
-                </ListItemIcon>
-                <ListItemText>henlo</ListItemText>
-              </ListItem>
-              <ListItem>
-                <ListItemIcon>
-                  <InboxIcon />
-                </ListItemIcon>
-                <ListItemText>henlo</ListItemText>
-              </ListItem>
-              <ListItem>
-                <ListItemIcon>
-                  <InboxIcon />
-                </ListItemIcon>
-                <ListItemText>henlo</ListItemText>
-              </ListItem>
-            </List>
-          </div>
-        </Drawer>
+        <div onClick={drawerToggle}>
+          <Drawer anchor="left" open={drawer}>
+            <div className={classes.toolbarHeader}>
+              {drawer && (
+                <Typography variant="h6" noWrap>
+                  HomeSec
+                </Typography>
+              )}
+              <IconButton onClick={drawerToggle}>
+                {drawer ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+              </IconButton>
+            </div>
+            <Divider />
+            <div className={classes.listIt}>
+              <List>
+                <ListItem onClick={sendToUser}>
+                  <ListItemIcon>
+                    <InboxIcon />
+                  </ListItemIcon>
+                  <ListItemText>henlo</ListItemText>
+                </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <InboxIcon />
+                  </ListItemIcon>
+                  <ListItemText>henlo</ListItemText>
+                </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <InboxIcon />
+                  </ListItemIcon>
+                  <ListItemText>henlo</ListItemText>
+                </ListItem>
+              </List>
+            </div>
+          </Drawer>
+        </div>
+
         <Container>
           <main>{props.children}</main>
         </Container>
