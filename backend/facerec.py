@@ -18,6 +18,7 @@ def findEncoding(images):
 path = 'Images'
 images = []
 classNames = []
+sendingUrl = "http://127.0.0.1:5000/api/detection/recieve_data"
 mylist = os.listdir(path)
 
 for a in mylist:
@@ -58,7 +59,7 @@ while True:
             json_data['date'] = f'{time.localtime().tm_year}-{time.localtime().tm_mon}-{time.localtime().tm_mday}'
             # json_data['picture_array'] = camImg.tolist()
             r = requests.post(
-                url="http://127.0.0.1:5000/api/user/recieve_data", json=json_data)
+                url=sendingUrl, json=json_data)
             print("Status: ", r.status_code)
         else:
             name = "unknown"
@@ -70,7 +71,7 @@ while True:
                 json_data['date'] = f'{time.localtime().tm_year}-{time.localtime().tm_mon}-{time.localtime().tm_mday}'
                 cv2.imwrite("unknown_images/unknown_%d.jpg" % count,  img)
                 r = requests.post(
-                    url="http://127.0.0.1:5000/api/user/recieve_data", json=json_data)
+                    url=sendingUrl, json=json_data)
                 count += 1
                 print("Status: ", r.status_code)
             timer += 1

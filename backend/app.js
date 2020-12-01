@@ -2,6 +2,7 @@ var express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const userRoutes = require("./routes/userRoutes");
+const detectionRoutes = require("./routes/detectionRoutes");
 const authRoutes = require("./routes/authRoutes");
 const cookieParser = require("cookie-parser");
 const { checkAuth, checkUser } = require("./middleware/authMiddleware");
@@ -34,7 +35,8 @@ app.get("/hello", checkAuth, (req, res) => {
   };
   res.json(hello);
 });
-app.use("/api/user/", userRoutes);
+app.use("/api/user/", checkAuth, userRoutes);
+app.use("/api/detection/", detectionRoutes);
 app.use("/api/auth/", authRoutes);
 //-------------------------------------------------------------------------------------------------------------------
 app.listen(process.env.PORT || 5000, process.env.IP, () => {
