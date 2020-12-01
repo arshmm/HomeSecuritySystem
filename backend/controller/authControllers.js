@@ -11,6 +11,7 @@ module.exports.signup_post = async (req, res) => {
   try {
     const user = await User.create(data);
     const token = createToken(user._id);
+    console.log("token crearted and signed in");
     res.status(201).json({ id: user._id, token });
   } catch (er) {
     const errors = handleError(er);
@@ -23,7 +24,8 @@ module.exports.login_post = async (req, res) => {
   try {
     const user = await User.login(email, password);
     const token = createToken(user._id);
-    res.status(200).json({ user: user._id, token });
+    console.log("token crearted and loggeded in");
+    res.status(200).json({ id: user._id, token });
   } catch (err) {
     const errors = handleError(err);
     res.status(400).json(errors);
@@ -31,7 +33,8 @@ module.exports.login_post = async (req, res) => {
 };
 //--------------------------------------------------------------------------
 module.exports.logout_get = (req, res) => {
-  res.json({ token: "" });
+  console.log("token removed and logged out");
+  res.json({ id: null, token: null });
 };
 //--------------------------------------------------------------------------
 
