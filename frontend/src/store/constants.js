@@ -17,3 +17,9 @@ export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
 export const LOGOUT_FAILURE = "LOGOUT_FAILURE";
 
 //-----------------------------------------------------------
+
+export const DETECTION_REQUEST = "DETECTION_REQUEST";
+export const DETECTION_SUCCESS = "DETECTION_SUCCESS";
+export const DETECTION_FAILURE = "DETECTION_FAILURE";
+
+//-----------------------------------------------------------

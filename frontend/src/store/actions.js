@@ -1,4 +1,5 @@
 import axios from "axios";
+import useRequest from "../utils/request";
 import {
   SIGNUP_SUCCESS,
   SIGNUP_REQUEST,
@@ -9,6 +10,9 @@ import {
   LOGOUT_REQUEST,
   LOGOUT_SUCCESS,
   LOGOUT_FAILURE,
+  DETECTION_REQUEST,
+  DETECTION_SUCCESS,
+  DETECTION_FAILURE,
 } from "./constants";
 
 const signup = (name, email, password) => async (dispatch) => {
@@ -51,4 +55,15 @@ const logout = () => async (dispatch) => {
   }
 };
 
-export { signup, login, logout };
+const fetchDetections = () => async (dispatch) => {
+  try {
+    dispatch({ type: DETECTION_REQUEST });
+    const { makeRequest } = useRequest();
+    const res = await makeRequest("/user/data1", "get");
+    dispatch({ type: DETECTION_SUCCESS, data: res.data });
+  } catch (error) {
+    dispatch({ type: DETECTION_FAILURE, payload: error.message });
+  }
+};
+
+export { signup, login, logout, fetchDetections };

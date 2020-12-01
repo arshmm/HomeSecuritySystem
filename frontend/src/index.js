@@ -6,13 +6,14 @@ import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter } from "react-router-dom";
 import { applyMiddleware, combineReducers, compose, createStore } from "redux";
 import { Provider } from "react-redux";
-import { authReducer } from "./store/reducer";
+import { authReducer, detectionReducer } from "./store/reducer";
 import thunk from "redux-thunk";
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const reducers = combineReducers({
   auth: authReducer,
+  detection: detectionReducer,
 });
 
 const store = createStore(reducers, composeEnhancers(applyMiddleware(thunk)));

@@ -14,7 +14,7 @@ const Login = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
-  const token = useRequest();
+  const { token, id } = useRequest();
   useEffect(() => {
     if (token) {
       props.history.push("/dashboard");

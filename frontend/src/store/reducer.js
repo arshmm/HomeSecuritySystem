@@ -1,11 +1,6 @@
 import * as actionsTypes from "./constants";
 
-const initialState = {
-  auth: {
-    id: null,
-    token: null,
-  },
-};
+const initialState = {};
 
 const authReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -31,5 +26,16 @@ const authReducer = (state = initialState, action) => {
       return state;
   }
 };
-
-export { authReducer };
+const detectionReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case actionsTypes.DETECTION_REQUEST:
+      return { loading: true };
+    case actionsTypes.DETECTION_SUCCESS:
+      return { loading: false, data: action.data };
+    case actionsTypes.DETECTION_FAILURE:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+export { authReducer, detectionReducer };
