@@ -1,16 +1,21 @@
-import React from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { withStyles, makeStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  Button,
+} from "@material-ui/core";
 import Layout from "../../components/Layout/Layout";
-import useRequest from "../../utils/request";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchDetections } from "../../store/actions";
+import Spinner from "../../components/Spinner/Spinner";
+
+import CModal from "../../components/CModal/CModal";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -38,36 +43,60 @@ const useStyles = makeStyles({
 
 const Detections = () => {
   const classes = useStyles();
-  const data = [
-    { name: "Arsh", time: "5am" },
-    { name: "Sir ji", time: "10pm" },
-  ];
+  const [modal, setModal] = useState(false);
   const dispatch = useDispatch();
-  dispatch(fetchDetections());
+  const token = useSelector((state) => state.auth.token);
+  const detection = useSelector((state) => state.detection);
+  const { loading, data } = detection;
+
+  useEffect(() => {
+    dispatch(fetchDetections(token));
+    return () => {};
+  }, [token]);
+  const viewPhoto = () => {
+    setModal(true);
+  };
 
   return (
     <Layout>
-      <h2>Detections</h2>
-      <TableContainer component={Paper}>
-        <Table className={classes.table} aria-label="customized table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell align="center">Name</StyledTableCell>
-              <StyledTableCell align="center">Time</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {data.map((item) => (
-              <StyledTableRow key={item.name}>
-                <StyledTableCell align="center" component="th" scope="row">
-                  {item.name}
-                </StyledTableCell>
-                <StyledTableCell align="center">{item.time}</StyledTableCell>
-              </StyledTableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      {loading ? (
+        <Spinner />
+      ) : (
+        <Fragment>
+          <h2>Detections</h2>
+          <TableContainer component={Paper}>
+            <Table className={classes.table} aria-label="customized table">
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell align="center">Name</StyledTableCell>
+                  <StyledTableCell align="center">Time</StyledTableCell>
+                  <StyledTableCell align="center"></StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {data.map((item) => (
+                  <StyledTableRow key={item.name}>
+                    <StyledTableCell align="center" component="th" scope="row">
+                      {item.name}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {item.time}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {item.name.includes("unknown") ? (
+                        <Button color="inherit" onClick={viewPhoto}>
+                          Show
+                        </Button>
+                      ) : null}
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          {modal && <CModal modal={modal} setModal={setModal}></CModal>}
+        </Fragment>
+      )}
     </Layout>
   );
 };

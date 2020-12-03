@@ -23,3 +23,15 @@ export const DETECTION_SUCCESS = "DETECTION_SUCCESS";
 export const DETECTION_FAILURE = "DETECTION_FAILURE";
 
 //-----------------------------------------------------------
+
+export const GETUSER_REQUEST = "GETUSER_REQUEST";
+export const GETUSER_SUCCESS = "GETUSER_SUCCESS";
+export const GETUSER_FAILURE = "GETUSER_FAILURE";
+
+//-----------------------------------------------------------
+
+export const POSTUSER_REQUEST = "POSTUSER_REQUEST";
+export const POSTUSER_SUCCESS = "POSTUSER_SUCCESS";
+export const POSTUSER_FAILURE = "POSTUSER_FAILURE";
+
+//-----------------------------------------------------------

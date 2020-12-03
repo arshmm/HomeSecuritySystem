@@ -1,5 +1,5 @@
 import axios from "axios";
-import useRequest from "../utils/request";
+
 import {
   SIGNUP_SUCCESS,
   SIGNUP_REQUEST,
@@ -13,6 +13,12 @@ import {
   DETECTION_REQUEST,
   DETECTION_SUCCESS,
   DETECTION_FAILURE,
+  GETUSER_REQUEST,
+  GETUSER_SUCCESS,
+  GETUSER_FAILURE,
+  POSTUSER_REQUEST,
+  POSTUSER_SUCCESS,
+  POSTUSER_FAILURE,
 } from "./constants";
 
 const signup = (name, email, password) => async (dispatch) => {
@@ -55,15 +61,47 @@ const logout = () => async (dispatch) => {
   }
 };
 
-const fetchDetections = () => async (dispatch) => {
+const fetchDetections = (token) => async (dispatch) => {
   try {
     dispatch({ type: DETECTION_REQUEST });
-    const { makeRequest } = useRequest();
-    const res = await makeRequest("/user/data1", "get");
+    const res = await axios.request({
+      method: "get",
+      url: "/api/user/data",
+      headers: {
+        authenticationToken: token,
+      },
+    });
     dispatch({ type: DETECTION_SUCCESS, data: res.data });
   } catch (error) {
     dispatch({ type: DETECTION_FAILURE, payload: error.message });
   }
 };
+const getUsers = (token) => async (dispatch) => {
+  try {
+    dispatch({ type: GETUSER_REQUEST });
+    const res = await axios.request({
+      method: "get",
+      url: "/api/user/",
+      headers: {
+        authenticationToken: token,
+      },
+    });
+    dispatch({ type: GETUSER_SUCCESS, data: res.data });
+  } catch (error) {
+    dispatch({ type: GETUSER_FAILURE, payload: error.message });
+  }
+};
+const postUser = (formData, token) => async (dispatch) => {
+  try {
+    dispatch({ type: POSTUSER_REQUEST });
+    const headers = {
+      authenticationToken: token,
+    };
+    const res = await axios.post("/api/user/", formData, { headers: headers });
+    dispatch({ type: POSTUSER_SUCCESS, postdata: res.data });
+  } catch (error) {
+    dispatch({ type: POSTUSER_FAILURE, payload: error.message });
+  }
+};
 
-export { signup, login, logout, fetchDetections };
+export { signup, login, logout, fetchDetections, getUsers, postUser };

@@ -17,7 +17,6 @@ import {
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-
 import GroupSharpIcon from "@material-ui/icons/GroupSharp";
 import VisibilitySharpIcon from "@material-ui/icons/VisibilitySharp";
 import LinkedCameraSharpIcon from "@material-ui/icons/LinkedCameraSharp";
