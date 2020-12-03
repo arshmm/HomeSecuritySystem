@@ -24,6 +24,7 @@ mongoose
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json({ limit: "100mb" }));
 app.use(cookieParser());
+app.use("/Images", express.static("Images"));
 //=====================================================================================================================
 //Routes
 //=====================================================================================================================
