@@ -33,7 +33,7 @@ const upload_validatior = (req, res, next) => {
     fs.unlinkSync(image);
     return res.status(400).json({ error: "File not supported" });
   }
-  if (req.file.size > 1024 * 1024) {
+  if (req.file.size > 1024 * 1024 * 3) {
     fs.unlinkSync(image);
     return res.status(400).json({ error: "thoda phit phit h" });
   }
