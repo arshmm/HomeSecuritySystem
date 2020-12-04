@@ -43,9 +43,12 @@ const useStyles = makeStyles({
   heading: {
     flexGrow: 1,
   },
+  mediaCard: {
+    width: "19rem",
+  },
   media: {
-    height: 0,
-    paddingTop: "56.25%", // 16:9
+    width: "15rem",
+    padding: "10%", // 16:9
   },
 });
 
@@ -130,9 +133,9 @@ const User = () => {
           )}
           {modal && (
             <CModal modal={modal} setModal={setModal}>
-                <Paper >
-                  <img width='300px' src={photoIndex} />
-                </Paper>
+              <Card className={classes.mediaCard}>
+                <img className={classes.media} src={photoIndex} alt="user" />
+              </Card>
             </CModal>
           )}
         </Fragment>
