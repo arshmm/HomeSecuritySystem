@@ -130,12 +130,9 @@ const User = () => {
           )}
           {modal && (
             <CModal modal={modal} setModal={setModal}>
-              <Card>
-                <CardHeader title="Photo" />
-                <Paper>
-                  <img src={photoIndex} />
+                <Paper >
+                  <img width='300px' src={photoIndex} />
                 </Paper>
-              </Card>
             </CModal>
           )}
         </Fragment>
