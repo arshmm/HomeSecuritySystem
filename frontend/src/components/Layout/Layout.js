@@ -35,6 +35,11 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+
+    "&:hover": {
+      textDecoration: "none",
+      cursor: "pointer",
+    },
   },
   toolbarHeader: {
     display: "flex",
@@ -81,6 +86,10 @@ const Layout = (props) => {
       </ListItem>
     );
   };
+  const dashboardForward = (e) => {
+    e.preventDefault();
+    props.history.push("/dashboard");
+  };
   const db = aloading ? (
     <Spinner />
   ) : (
@@ -97,7 +106,12 @@ const Layout = (props) => {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" className={classes.title}>
+
+            <Typography
+              onClick={dashboardForward}
+              variant="h6"
+              className={classes.title}
+            >
               HomeSec
             </Typography>
             <Button color="inherit" onClick={logoutBtn}>
