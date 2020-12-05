@@ -9,6 +9,7 @@ import {
   TableRow,
   Paper,
   Button,
+  Card,
 } from "@material-ui/core";
 import Layout from "../../components/Layout/Layout";
 import { useDispatch, useSelector } from "react-redux";
@@ -39,11 +40,19 @@ const useStyles = makeStyles({
   table: {
     minWidth: 700,
   },
+  mediaCard: {
+    width: "19rem",
+  },
+  media: {
+    width: "15rem",
+    padding: "10%", // 16:9
+  },
 });
 
 const Detections = () => {
   const classes = useStyles();
   const [modal, setModal] = useState(false);
+  const [photoIndex, setPhotoIndex] = useState("");
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
   const detection = useSelector((state) => state.detection);
@@ -53,10 +62,12 @@ const Detections = () => {
     dispatch(fetchDetections(token));
     return () => {};
   }, [token]);
-  const viewPhoto = () => {
-    setModal(true);
-  };
 
+  const viewPhoto = (pindex) => {
+    setModal(true);
+    let path = `http://localhost:5000/${data[pindex].image}`;
+    setPhotoIndex(path);
+  };
   return (
     <Layout>
       {loading ? (
@@ -74,7 +85,7 @@ const Detections = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {data.map((item) => (
+                {data.map((item, pindex) => (
                   <StyledTableRow key={item.name}>
                     <StyledTableCell align="center" component="th" scope="row">
                       {item.name}
@@ -84,7 +95,10 @@ const Detections = () => {
                     </StyledTableCell>
                     <StyledTableCell align="center">
                       {item.name.includes("unknown") ? (
-                        <Button color="inherit" onClick={viewPhoto}>
+                        <Button
+                          color="inherit"
+                          onClick={() => viewPhoto(pindex)}
+                        >
                           Show
                         </Button>
                       ) : null}
@@ -94,7 +108,13 @@ const Detections = () => {
               </TableBody>
             </Table>
           </TableContainer>
-          {modal && <CModal modal={modal} setModal={setModal}></CModal>}
+          {modal && (
+            <CModal modal={modal} setModal={setModal}>
+              <Card className={classes.mediaCard}>
+                <img className={classes.media} src={photoIndex} alt="user" />
+              </Card>
+            </CModal>
+          )}
         </Fragment>
       )}
     </Layout>
