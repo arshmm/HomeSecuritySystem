@@ -58,4 +58,21 @@ const userReducer = (state = { loading: false, data: [] }, action) => {
       return state;
   }
 };
-export { authReducer, detectionReducer, userReducer };
+
+const snackbarReducer = (
+  state = { snackbarOpen: false, snackbarType: "", snackbarMessage: "" },
+  action
+) => {
+  switch (action.type) {
+    case actionsTypes.SET_SNACKBAR:
+      return {
+        snackbarOpen: action.snackbarOpen,
+        snackbarType: action.snackbarType,
+        snackbarMessage: action.snackbarMessage,
+      };
+    default:
+      return state;
+  }
+};
+
+export { authReducer, detectionReducer, userReducer, snackbarReducer };

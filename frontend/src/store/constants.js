@@ -35,3 +35,5 @@ export const POSTUSER_SUCCESS = "POSTUSER_SUCCESS";
 export const POSTUSER_FAILURE = "POSTUSER_FAILURE";
 
 //-----------------------------------------------------------
+
+export const SET_SNACKBAR = "SET_SNACKBAR";

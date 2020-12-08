@@ -19,8 +19,9 @@ import {
   POSTUSER_REQUEST,
   POSTUSER_SUCCESS,
   POSTUSER_FAILURE,
+  SET_SNACKBAR,
 } from "./constants";
-
+//-------------------------------------------------------------------------
 const signup = (name, email, password) => async (dispatch) => {
   try {
     dispatch({ type: SIGNUP_REQUEST });
@@ -32,9 +33,11 @@ const signup = (name, email, password) => async (dispatch) => {
     const { id, token } = data;
     dispatch({ type: SIGNUP_SUCCESS, id: id, token: token });
   } catch (error) {
-    dispatch({ type: SIGNUP_FAILURE, payload: error.message });
+    dispatch({ type: SIGNUP_FAILURE, payload: error.response.data });
   }
 };
+
+//-------------------------------------------------------------------------
 
 const login = (email, password) => async (dispatch) => {
   try {
@@ -46,9 +49,11 @@ const login = (email, password) => async (dispatch) => {
     const { id, token } = data;
     dispatch({ type: LOGIN_SUCCESS, id: id, token: token });
   } catch (error) {
-    dispatch({ type: LOGIN_FAILURE, payload: error.message });
+    dispatch({ type: LOGIN_FAILURE, payload: error.response.data });
   }
 };
+
+//-------------------------------------------------------------------------
 
 const logout = () => async (dispatch) => {
   try {
@@ -57,9 +62,11 @@ const logout = () => async (dispatch) => {
     const { id, token } = data;
     dispatch({ type: LOGOUT_SUCCESS, id: id, token: token });
   } catch (error) {
-    dispatch({ type: LOGOUT_FAILURE, payload: error.message });
+    dispatch({ type: LOGOUT_FAILURE, payload: error.response.data });
   }
 };
+
+//-------------------------------------------------------------------------
 
 const fetchDetections = (token) => async (dispatch) => {
   try {
@@ -73,9 +80,12 @@ const fetchDetections = (token) => async (dispatch) => {
     });
     dispatch({ type: DETECTION_SUCCESS, data: res.data });
   } catch (error) {
-    dispatch({ type: DETECTION_FAILURE, payload: error.message });
+    dispatch({ type: DETECTION_FAILURE, payload: error.response.data });
   }
 };
+
+//-------------------------------------------------------------------------
+
 const getUsers = (token) => async (dispatch) => {
   try {
     dispatch({ type: GETUSER_REQUEST });
@@ -88,9 +98,12 @@ const getUsers = (token) => async (dispatch) => {
     });
     dispatch({ type: GETUSER_SUCCESS, data: res.data });
   } catch (error) {
-    dispatch({ type: GETUSER_FAILURE, payload: error.message });
+    dispatch({ type: GETUSER_FAILURE, payload: error.response.data });
   }
 };
+
+//-------------------------------------------------------------------------
+
 const postUser = (formData, token) => async (dispatch) => {
   try {
     dispatch({ type: POSTUSER_REQUEST });
@@ -100,8 +113,29 @@ const postUser = (formData, token) => async (dispatch) => {
     const res = await axios.post("/api/user/", formData, { headers: headers });
     dispatch({ type: POSTUSER_SUCCESS, postdata: res.data });
   } catch (error) {
-    dispatch({ type: POSTUSER_FAILURE, payload: error.message });
+    dispatch({ type: POSTUSER_FAILURE, payload: error.response.data });
   }
 };
 
-export { signup, login, logout, fetchDetections, getUsers, postUser };
+//-------------------------------------------------------------------------
+
+const setSnackbar = (snackbarOpen, snackbarType = "", snackbarMessage = "") => (
+  dispatch
+) => {
+  dispatch({
+    type: SET_SNACKBAR,
+    snackbarOpen: snackbarOpen,
+    snackbarType: snackbarType,
+    snackbarMessage: snackbarMessage,
+  });
+};
+
+export {
+  signup,
+  login,
+  logout,
+  fetchDetections,
+  getUsers,
+  postUser,
+  setSnackbar,
+};

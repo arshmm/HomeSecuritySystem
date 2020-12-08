@@ -6,10 +6,11 @@ import {
   Paper,
   TextField,
 } from "@material-ui/core";
-import { signup } from "../../store/actions";
+import { setSnackbar, signup } from "../../store/actions";
 import { useSelector, useDispatch } from "react-redux";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import Csnackbar from "../Csnackbar/Csnackbar";
 
 const validationSchema = yup.object({
   name: yup.string("Enter your name").required("Name is required"),
@@ -34,6 +35,13 @@ const validationSchema = yup.object({
 const Signup = (props) => {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
+  const { error } = auth;
+  useEffect(() => {
+    if (error) {
+      dispatch(setSnackbar(true, "error", error));
+    }
+    return () => {};
+  }, [error]);
   const { token } = auth;
   useEffect(() => {
     if (token) {
@@ -59,6 +67,7 @@ const Signup = (props) => {
 
   return (
     <Container maxWidth="sm" style={{ paddingTop: "10rem" }}>
+      <Csnackbar></Csnackbar>
       <Paper elevation={3}>
         <form onSubmit={formik.handleSubmit}>
           <FormControl style={{ width: "100%" }}>

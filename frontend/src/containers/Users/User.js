@@ -13,10 +13,11 @@ import {
 } from "@material-ui/core";
 import Layout from "../../components/Layout/Layout";
 import { useDispatch, useSelector } from "react-redux";
-import { getUsers, postUser } from "../../store/actions";
+import { getUsers, postUser, setSnackbar } from "../../store/actions";
 import Spinner from "../../components/Spinner/Spinner";
 import CModal from "../../components/CModal/CModal";
 import FormDialog from "../../components/FormDialog/FormDialog";
+import Csnackbar from "../Csnackbar/Csnackbar";
 
 const StyledTableCell = withStyles((theme) => ({
   head: {
@@ -65,6 +66,15 @@ const User = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const { loading, data } = user;
+  const { error } = user;
+  useEffect(() => {
+    if (error) {
+      console.log(error);
+      dispatch(setSnackbar(true, "error", error));
+    }
+    return () => {};
+  }, [error]);
+
   useEffect(() => {
     if (token) {
       dispatch(getUsers(token));
@@ -88,6 +98,7 @@ const User = () => {
         <Spinner />
       ) : (
         <Fragment>
+          <Csnackbar></Csnackbar>
           <div className={classes.headingDiv}>
             <h2 className={classes.heading}>Users</h2>
             <Button color="inherit" onClick={() => setFdialog(true)}>

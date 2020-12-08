@@ -12,7 +12,7 @@ const Dashboard = () => {
       </Grid>
       <Grid container justify="center">
         <Paper style={{ padding: "0.5rem" }} elevation={10}>
-          <Webcam />
+          {/* <Webcam /> */}
         </Paper>
       </Grid>
     </Layout>
