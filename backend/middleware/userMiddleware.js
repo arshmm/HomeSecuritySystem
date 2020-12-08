@@ -19,9 +19,7 @@ const uploader = upload.single("userImage");
 //--------------------------------------------------------------------------------------------
 const upload_validatior = (req, res, next) => {
   if (typeof req.file === "undefined" || typeof req.body === "undefined") {
-    return res
-      .status(400)
-      .json({ error: "Problem with thew file or the name" });
+    return res.status(400).send("Problem with the file or the name");
   }
   let name = req.body.name;
   let image = req.file.path;
@@ -31,14 +29,14 @@ const upload_validatior = (req, res, next) => {
     !req.file.mimetype.includes("jpeg")
   ) {
     fs.unlinkSync(image);
-    return res.status(400).json({ error: "File not supported" });
+    return res.status(400).send("File not supported");
   }
   if (req.file.size > 1024 * 1024 * 3) {
     fs.unlinkSync(image);
-    return res.status(400).json({ error: "thoda phit phit h" });
+    return res.status(400).send("thoda phit phit h");
   }
   if (!name || !image) {
-    return res.status(400).json({ error: "aaisa adha adha na chale" });
+    return res.status(400).send("aaisa adha adha na chale");
   }
   next();
 };

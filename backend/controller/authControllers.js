@@ -15,7 +15,7 @@ module.exports.signup_post = async (req, res) => {
     res.status(201).json({ id: admin._id, token });
   } catch (er) {
     const errors = handleError(er);
-    res.status(400).json(errors);
+    res.status(400).send(errors);
   }
 };
 //--------------------------------------------------------------------------
@@ -52,7 +52,7 @@ const handleError = (err) => {
   //signup errors
   //duplicate errors
   if (err.code === 11000) {
-    errors.email = "That email is already taken";
+    errors = "That email is already taken";
     return errors;
   }
   //validation errors
