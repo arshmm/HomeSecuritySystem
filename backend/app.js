@@ -25,6 +25,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json({ limit: "100mb" }));
 app.use(cookieParser());
 app.use("/Images", express.static("Images"));
+app.use("/unknown_images", express.static("unknown_images"));
 //=====================================================================================================================
 //Routes
 //=====================================================================================================================

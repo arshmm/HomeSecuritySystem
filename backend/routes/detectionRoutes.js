@@ -5,7 +5,8 @@ const router = express.Router();
 
 router.post("/recieve_data", async (req, res) => {
   const time = req.body.hour + " " + req.body.date;
-  const data = { name: req.body.name, time };
+  const image = req.body.imgpath;
+  const data = { name: req.body.name, time, image };
   try {
     if (data.name.includes("unknown")) {
       const detection = await Detection.create(data);
