@@ -29,18 +29,10 @@ app.use("/unknown_images", express.static("unknown_images"));
 //=====================================================================================================================
 //Routes
 //=====================================================================================================================
-app.get("/hello", checkAuth, (req, res) => {
-  console.log("request aayi");
-  const hello = {
-    name: "arsh",
-    age: "600",
-  };
-  res.json(hello);
-});
 app.use("/api/user/", checkAuth, userRoutes);
 app.use("/api/detection/", detectionRoutes);
 app.use("/api/auth/", authRoutes);
 //-------------------------------------------------------------------------------------------------------------------
 app.listen(process.env.PORT || 5000, process.env.IP, () => {
-  console.log("dun dun dun");
+  console.log("Server running");
 });
