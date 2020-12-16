@@ -21,7 +21,7 @@ router.post("/recieve_data", async (req, res) => {
         detection = await Detection.create(data);
       }
     }
-    console.log("avi gayu");
+    console.log("recieved");
     res.status(200).send("recieved");
   } catch (error) {
     console.log(error);

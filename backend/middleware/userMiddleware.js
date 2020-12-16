@@ -4,11 +4,15 @@ const fs = require("fs");
 
 const storage = multer.diskStorage({
   destination: function (req, res, cb) {
-    console.log("inside uploader");
-    cb(null, "./Images/");
+    if (req.body.name != "") {
+      console.log("inside uploader");
+      cb(null, "./Images/");
+    }
   },
   filename: function (req, file, cb) {
-    cb(null, `${req.body.name}${path.extname(file.originalname)}`);
+    if (req.body.name != "") {
+      cb(null, `${req.body.name}${path.extname(file.originalname)}`);
+    }
   },
 });
 
