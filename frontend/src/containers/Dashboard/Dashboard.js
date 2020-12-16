@@ -10,11 +10,11 @@ const Dashboard = () => {
         <Typography variant="h1">Welcome to HomeSec</Typography>
         <Typography variant="h4">You've been protected!</Typography>
       </Grid>
-      <Grid container justify="center">
+      {/* <Grid container justify="center">
         <Paper style={{ padding: "0.5rem" }} elevation={10}>
-          {/* <Webcam /> */}
+           <Webcam /> 
         </Paper>
-      </Grid>
+      </Grid> */}
     </Layout>
   );
 };

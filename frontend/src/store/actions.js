@@ -20,6 +20,9 @@ import {
   POSTUSER_SUCCESS,
   POSTUSER_FAILURE,
   SET_SNACKBAR,
+  DELETEUSER_FAILURE,
+  DELETEUSER_REQUEST,
+  DELETEUSER_SUCCESS,
 } from "./constants";
 //-------------------------------------------------------------------------
 const signup = (name, email, password) => async (dispatch) => {
@@ -116,6 +119,21 @@ const postUser = (formData, token) => async (dispatch) => {
     dispatch({ type: POSTUSER_FAILURE, payload: error.response.data });
   }
 };
+//-------------------------------------------------------------------------
+
+const deleteUser = (id, token) => async (dispatch) => {
+  try {
+    dispatch({ type: DELETEUSER_REQUEST });
+    const headers = {
+      authenticationToken: token,
+    };
+    const url = "/api/user/" + id;
+    const res = await axios.delete(url, { headers: headers });
+    dispatch({ type: DELETEUSER_SUCCESS, deletedata: res.data });
+  } catch (error) {
+    dispatch({ type: DELETEUSER_FAILURE, payload: error.response.data });
+  }
+};
 
 //-------------------------------------------------------------------------
 
@@ -137,5 +155,6 @@ export {
   fetchDetections,
   getUsers,
   postUser,
+  deleteUser,
   setSnackbar,
 };

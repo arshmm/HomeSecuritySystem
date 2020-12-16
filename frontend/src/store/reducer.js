@@ -54,6 +54,12 @@ const userReducer = (state = { loading: false, data: [] }, action) => {
       return { ...state, loading: false, postdata: action.postdata };
     case actionsTypes.POSTUSER_FAILURE:
       return { loading: false, error: action.payload };
+    case actionsTypes.DELETEUSER_REQUEST:
+      return { loading: true };
+    case actionsTypes.DELETEUSER_SUCCESS:
+      return { ...state, loading: false, deletedata: action.postdata };
+    case actionsTypes.DETECTION_FAILURE:
+      return { loading: false, error: action.payload };
     default:
       return state;
   }

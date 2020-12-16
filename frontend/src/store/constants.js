@@ -36,4 +36,10 @@ export const POSTUSER_FAILURE = "POSTUSER_FAILURE";
 
 //-----------------------------------------------------------
 
+export const DELETEUSER_REQUEST = "DELETEUSER_REQUEST";
+export const DELETEUSER_SUCCESS = "DELETEUSER_SUCCESS";
+export const DELETEUSER_FAILURE = "DELETEUSER_FAILURE";
+
+//-----------------------------------------------------------
+
 export const SET_SNACKBAR = "SET_SNACKBAR";

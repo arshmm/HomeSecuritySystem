@@ -13,7 +13,12 @@ import {
 } from "@material-ui/core";
 import Layout from "../../components/Layout/Layout";
 import { useDispatch, useSelector } from "react-redux";
-import { getUsers, postUser, setSnackbar } from "../../store/actions";
+import {
+  deleteUser,
+  getUsers,
+  postUser,
+  setSnackbar,
+} from "../../store/actions";
 import Spinner from "../../components/Spinner/Spinner";
 import CModal from "../../components/CModal/CModal";
 import FormDialog from "../../components/FormDialog/FormDialog";
@@ -62,6 +67,7 @@ const User = () => {
   const [fdialog, setFdialog] = useState(false);
   const [fetchData, setFetchData] = useState(false);
   const [photoIndex, setPhotoIndex] = useState("");
+  /* const [uid, setUid] = useState(""); */
   const token = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
@@ -91,6 +97,10 @@ const User = () => {
     let path = `http://localhost:5000/${data[pindex].image}`;
     setPhotoIndex(path);
   };
+  const deletePhoto = (id) => {
+    dispatch(deleteUser(id, token));
+    setFetchData(true);
+  };
 
   return (
     <Layout>
@@ -112,6 +122,7 @@ const User = () => {
                 <TableRow>
                   <StyledTableCell align="center">Name</StyledTableCell>
                   <StyledTableCell align="center">Photo</StyledTableCell>
+                  <StyledTableCell align="center"></StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -131,6 +142,14 @@ const User = () => {
                           onClick={() => viewPhoto(pindex)}
                         >
                           View
+                        </Button>
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                        <Button
+                          color="inherit"
+                          onClick={() => deletePhoto(item._id)}
+                        >
+                          Delete
                         </Button>
                       </StyledTableCell>
                     </StyledTableRow>
