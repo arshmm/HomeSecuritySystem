@@ -1,7 +1,9 @@
 var express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const morgan = require("morgan");
 const userRoutes = require("./routes/userRoutes");
+const detectionRoutes = require("./routes/detectionRoutes");
 const authRoutes = require("./routes/authRoutes");
 const cookieParser = require("cookie-parser");
 const { checkAuth, checkUser } = require("./middleware/authMiddleware");
@@ -23,20 +25,16 @@ mongoose
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json({ limit: "100mb" }));
 app.use(cookieParser());
+app.use("/Images", express.static("Images"));
+app.use("/unknown_images", express.static("unknown_images"));
+app.use(morgan("tiny"));
 //=====================================================================================================================
 //Routes
 //=====================================================================================================================
-app.get("/hello", checkAuth, (req, res) => {
-  console.log("request aayi");
-  const hello = {
-    name: "arsh",
-    age: "600",
-  };
-  res.json(hello);
-});
-app.use("/api/user/", userRoutes);
+app.use("/api/user/", checkAuth, userRoutes);
+app.use("/api/detection/", detectionRoutes);
 app.use("/api/auth/", authRoutes);
 //-------------------------------------------------------------------------------------------------------------------
 app.listen(process.env.PORT || 5000, process.env.IP, () => {
-  console.log("dun dun dun");
+  console.log("Server running");
 });

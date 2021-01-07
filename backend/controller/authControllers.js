@@ -1,4 +1,4 @@
-const User = require("../models/User");
+const Admin = require("../models/Admin");
 const jwt = require("jsonwebtoken");
 const { use } = require("../routes/userRoutes");
 //--------------------------------------------------------------------------
@@ -9,21 +9,23 @@ module.exports.signup_post = async (req, res) => {
     password: req.body.password,
   };
   try {
-    const user = await User.create(data);
-    const token = createToken(user._id);
-    res.status(201).json({ id: user._id, token });
+    const admin = await Admin.create(data);
+    const token = createToken(admin._id);
+
+    res.status(201).json({ id: admin._id, token });
   } catch (er) {
     const errors = handleError(er);
-    res.status(400).json(errors);
+    res.status(400).send(errors);
   }
 };
 //--------------------------------------------------------------------------
 module.exports.login_post = async (req, res) => {
   const { email, password } = req.body;
   try {
-    const user = await User.login(email, password);
-    const token = createToken(user._id);
-    res.status(200).json({ user: user._id, token });
+    const admin = await Admin.login(email, password);
+    const token = createToken(admin._id);
+
+    res.status(200).json({ id: admin._id, token });
   } catch (err) {
     const errors = handleError(err);
     res.status(400).json(errors);
@@ -31,7 +33,7 @@ module.exports.login_post = async (req, res) => {
 };
 //--------------------------------------------------------------------------
 module.exports.logout_get = (req, res) => {
-  res.json({ token: "" });
+  res.json({ id: null, token: null });
 };
 //--------------------------------------------------------------------------
 
@@ -49,14 +51,13 @@ const handleError = (err) => {
   //signup errors
   //duplicate errors
   if (err.code === 11000) {
-    errors.email = "That email is already taken";
+    errors = "That email is already taken";
     return errors;
   }
   //validation errors
-  if (err.message.includes("User validation failed")) {
+  if (err.message.includes("Admin validation failed")) {
     Object.values(err.errors).forEach(({ properties }) => {
       errors[properties.path] = properties.message;
-      console.log(errors);
     });
   }
   return errors;

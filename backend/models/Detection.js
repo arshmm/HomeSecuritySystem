@@ -7,6 +7,9 @@ const DetectionSchema = new mongoose.Schema({
   time: {
     type: String,
   },
+  image: {
+    type: String,
+  },
 });
 
 const Detection = mongoose.model("Detection", DetectionSchema);
