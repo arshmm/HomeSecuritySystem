@@ -42,4 +42,10 @@ export const DELETEUSER_FAILURE = "DELETEUSER_FAILURE";
 
 //-----------------------------------------------------------
 
+export const CLEAR_HISTORY_REQUEST = "CLEAR_HISTORY_REQUEST";
+export const CLEAR_HISTORY_RESPONSE = "CLEAR_HISTORY_RESPONSE";
+export const CLEAR_HISTORY_ERROR = "CLEAR_HISTORY_ERROR";
+
+//-----------------------------------------------------------
+
 export const SET_SNACKBAR = "SET_SNACKBAR";

@@ -35,6 +35,12 @@ const detectionReducer = (state = { loading: false, data: [] }, action) => {
       return { loading: false, data: action.data };
     case actionsTypes.DETECTION_FAILURE:
       return { loading: false, error: action.payload };
+    case actionsTypes.CLEAR_HISTORY_REQUEST:
+      return { loading: true };
+    case actionsTypes.CLEAR_HISTORY_RESPONSE:
+      return { ...state, loading: false, data: [] };
+    case actionsTypes.CLEAR_HISTORY_ERROR:
+      return { loading: false, error: action.payload };
     default:
       return state;
   }

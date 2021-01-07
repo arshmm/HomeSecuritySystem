@@ -13,7 +13,7 @@ import {
 } from "@material-ui/core";
 import Layout from "../../components/Layout/Layout";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchDetections } from "../../store/actions";
+import { clearDetections, fetchDetections } from "../../store/actions";
 import Spinner from "../../components/Spinner/Spinner";
 
 import CModal from "../../components/CModal/CModal";
@@ -47,6 +47,12 @@ const useStyles = makeStyles({
     width: "15rem",
     padding: "10%", // 16:9
   },
+  headingDiv: {
+    display: "flex",
+  },
+  heading: {
+    flexGrow: 1,
+  },
 });
 
 const Detections = () => {
@@ -68,13 +74,21 @@ const Detections = () => {
     let path = `http://localhost:5000/${data[pindex].image}`;
     setPhotoIndex(path);
   };
+  const clearHistory = () => {
+    dispatch(clearDetections(token));
+  };
   return (
     <Layout>
       {loading ? (
         <Spinner />
       ) : (
         <Fragment>
-          <h2>Detections</h2>
+          <div className={classes.headingDiv}>
+            <h2 className={classes.heading}>Detections</h2>
+            <Button color="inherit" onClick={clearHistory}>
+              Clear history
+            </Button>
+          </div>
           <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="customized table">
               <TableHead>

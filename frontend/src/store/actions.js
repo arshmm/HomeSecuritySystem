@@ -23,6 +23,9 @@ import {
   DELETEUSER_FAILURE,
   DELETEUSER_REQUEST,
   DELETEUSER_SUCCESS,
+  CLEAR_HISTORY_REQUEST,
+  CLEAR_HISTORY_RESPONSE,
+  CLEAR_HISTORY_ERROR,
 } from "./constants";
 //-------------------------------------------------------------------------
 const signup = (name, email, password) => async (dispatch) => {
@@ -84,6 +87,24 @@ const fetchDetections = (token) => async (dispatch) => {
     dispatch({ type: DETECTION_SUCCESS, data: res.data });
   } catch (error) {
     dispatch({ type: DETECTION_FAILURE, payload: error.response.data });
+  }
+};
+
+//-------------------------------------------------------------------------
+
+const clearDetections = (token) => async (dispatch) => {
+  try {
+    dispatch({ type: CLEAR_HISTORY_REQUEST });
+    const res = await axios.request({
+      method: "delete",
+      url: "/api/user/data",
+      headers: {
+        authenticationToken: token,
+      },
+    });
+    dispatch({ type: CLEAR_HISTORY_RESPONSE, data: res.data });
+  } catch (error) {
+    dispatch({ type: CLEAR_HISTORY_ERROR, payload: error.response.data });
   }
 };
 
@@ -153,6 +174,7 @@ export {
   login,
   logout,
   fetchDetections,
+  clearDetections,
   getUsers,
   postUser,
   deleteUser,
