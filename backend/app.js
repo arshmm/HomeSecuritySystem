@@ -1,6 +1,7 @@
 var express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const morgan = require("morgan");
 const userRoutes = require("./routes/userRoutes");
 const detectionRoutes = require("./routes/detectionRoutes");
 const authRoutes = require("./routes/authRoutes");
@@ -26,6 +27,7 @@ app.use(bodyParser.json({ limit: "100mb" }));
 app.use(cookieParser());
 app.use("/Images", express.static("Images"));
 app.use("/unknown_images", express.static("unknown_images"));
+app.use(morgan("tiny"));
 //=====================================================================================================================
 //Routes
 //=====================================================================================================================

@@ -21,11 +21,9 @@ router.post("/recieve_data", async (req, res) => {
         detection = await Detection.create(data);
       }
     }
-    console.log("recieved");
+
     res.status(200).send("recieved");
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 });
 
 module.exports = router;

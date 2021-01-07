@@ -5,7 +5,6 @@ const fs = require("fs");
 const storage = multer.diskStorage({
   destination: function (req, res, cb) {
     if (req.body.name != "") {
-      console.log("inside uploader");
       cb(null, "./Images/");
     }
   },

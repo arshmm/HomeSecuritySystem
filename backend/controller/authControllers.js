@@ -11,7 +11,7 @@ module.exports.signup_post = async (req, res) => {
   try {
     const admin = await Admin.create(data);
     const token = createToken(admin._id);
-    console.log("token crearted and signed in");
+
     res.status(201).json({ id: admin._id, token });
   } catch (er) {
     const errors = handleError(er);
@@ -24,7 +24,7 @@ module.exports.login_post = async (req, res) => {
   try {
     const admin = await Admin.login(email, password);
     const token = createToken(admin._id);
-    console.log("token crearted and loggeded in");
+
     res.status(200).json({ id: admin._id, token });
   } catch (err) {
     const errors = handleError(err);
@@ -33,7 +33,6 @@ module.exports.login_post = async (req, res) => {
 };
 //--------------------------------------------------------------------------
 module.exports.logout_get = (req, res) => {
-  console.log("token removed and logged out");
   res.json({ id: null, token: null });
 };
 //--------------------------------------------------------------------------
@@ -59,7 +58,6 @@ const handleError = (err) => {
   if (err.message.includes("Admin validation failed")) {
     Object.values(err.errors).forEach(({ properties }) => {
       errors[properties.path] = properties.message;
-      console.log(errors);
     });
   }
   return errors;

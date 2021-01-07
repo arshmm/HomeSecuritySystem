@@ -9,7 +9,6 @@ const checkAuth = (req, res, next) => {
   if (token) {
     jwt.verify(token, "hackerman me is very", (err, decodedToken) => {
       if (err) {
-        console.log("chooorrrr");
         res.send("unauthorized");
       } else {
         next();
@@ -25,10 +24,8 @@ const checkAdmin = (req, res, next) => {
   if (token) {
     jwt.verify(token, "hackerman me is very", async (err, decodedToken) => {
       if (err) {
-        console.log("chooorrrr");
         next();
       } else {
-        console.log(decodedToken);
         let admin = await Admin.findById(decodedToken.id);
         res.send(admin);
         next();
