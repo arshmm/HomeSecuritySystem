@@ -12,12 +12,19 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Button,
 } from "@material-ui/core";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
+import GroupSharpIcon from "@material-ui/icons/GroupSharp";
+import VisibilitySharpIcon from "@material-ui/icons/VisibilitySharp";
+import LinkedCameraSharpIcon from "@material-ui/icons/LinkedCameraSharp";
+import LockSharpIcon from "@material-ui/icons/LockSharp";
 import { withRouter } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../store/actions";
+import Spinner from "../../components/Spinner/Spinner";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,6 +35,10 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+    "&:hover": {
+      textDecoration: "none",
+      cursor: "pointer",
+    },
   },
   toolbarHeader: {
     display: "flex",
@@ -36,71 +47,102 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0, 1),
     ...theme.mixins.toolbar,
   },
-  listIt: {
-    width: "125",
+  list: {
+    width: 230,
+  },
+  appBarColor: {
+    backgroundColor: "black",
+  },
+  listSyle: {
+    marginLeft: "1rem",
   },
 }));
 
 const Layout = (props) => {
   const [drawer, setDrawer] = useState(false);
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const aloading = useSelector((state) => state.auth.loading);
+  const listItem = [
+    { key: 1, name: "dashboard", icon: <LinkedCameraSharpIcon /> },
+    { key: 2, name: "users", icon: <GroupSharpIcon /> },
+    { key: 3, name: "detections", icon: <VisibilitySharpIcon /> },
+  ];
   const drawerToggle = () => {
     setDrawer(!drawer);
   };
-  const sendToUser = () => {
-    props.history.push("/users");
+  const sendToItem = (name) => {
+    props.history.push(`/${name}`);
   };
-  return (
+  const logoutBtn = () => {
+    dispatch(logout());
+  };
+  const createListItem = (item) => {
+    return (
+      <ListItem key={item.key} onClick={() => sendToItem(item.name)}>
+        <ListItemIcon>{item.icon}</ListItemIcon>
+        <ListItemText>{item.name}</ListItemText>
+      </ListItem>
+    );
+  };
+  const dashboardForward = (e) => {
+    e.preventDefault();
+    props.history.push("/dashboard");
+  };
+  const db = aloading ? (
+    <Spinner />
+  ) : (
     <Fragment>
-      <div /* onClick={drawerToggle} */ className={classes.root}>
-        <AppBar position="static">
+      <div className={classes.root}>
+        <AppBar position="static" className={classes.appBarColor}>
           <Toolbar>
-            <IconButton onClick={drawerToggle}>
+            <IconButton
+              edge="start"
+              className={classes.menuButton}
+              color="inherit"
+              aria-label="menu"
+              onClick={drawerToggle}
+            >
               <MenuIcon />
             </IconButton>
+            <Typography
+              onClick={dashboardForward}
+              variant="h6"
+              className={classes.title}
+            >
+              HomeSec
+            </Typography>
+            <Button color="inherit" onClick={logoutBtn}>
+              Logout
+            </Button>
           </Toolbar>
         </AppBar>
-        <Drawer anchor="left" open={drawer}>
-          <div className={classes.toolbarHeader}>
-            {drawer && (
-              <Typography variant="h6" noWrap>
-                HomeSec
-              </Typography>
-            )}
-            <IconButton onClick={drawerToggle}>
-              {drawer ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-            </IconButton>
-          </div>
-          <Divider />
-          <div className={classes.listIt}>
-            <List>
-              <ListItem onClick={sendToUser}>
-                <ListItemIcon>
-                  <InboxIcon />
-                </ListItemIcon>
-                <ListItemText>henlo</ListItemText>
-              </ListItem>
-              <ListItem>
-                <ListItemIcon>
-                  <InboxIcon />
-                </ListItemIcon>
-                <ListItemText>henlo</ListItemText>
-              </ListItem>
-              <ListItem>
-                <ListItemIcon>
-                  <InboxIcon />
-                </ListItemIcon>
-                <ListItemText>henlo</ListItemText>
-              </ListItem>
-            </List>
-          </div>
-        </Drawer>
+        <div onClick={drawerToggle}>
+          <Drawer anchor="left" open={drawer}>
+            <div className={classes.list}>
+              <div className={classes.toolbarHeader}>
+                {drawer && (
+                  <div style={{ margin: "auto" }}>
+                    <LockSharpIcon />
+                  </div>
+                )}
+                <IconButton onClick={drawerToggle}>
+                  {drawer ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+                </IconButton>
+              </div>
+              <Divider />
+              <List>{listItem.map((item) => createListItem(item))}</List>
+            </div>
+          </Drawer>
+        </div>
+
         <Container>
           <main>{props.children}</main>
         </Container>
       </div>
     </Fragment>
   );
+  return db;
 };
 
 export default withRouter(Layout);

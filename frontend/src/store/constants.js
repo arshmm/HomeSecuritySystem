@@ -11,3 +11,41 @@ export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAILURE = "LOGIN_FAILURE";
 
 //-----------------------------------------------------------
+
+export const LOGOUT_REQUEST = "LOGOUT_REQUEST";
+export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
+export const LOGOUT_FAILURE = "LOGOUT_FAILURE";
+
+//-----------------------------------------------------------
+
+export const DETECTION_REQUEST = "DETECTION_REQUEST";
+export const DETECTION_SUCCESS = "DETECTION_SUCCESS";
+export const DETECTION_FAILURE = "DETECTION_FAILURE";
+
+//-----------------------------------------------------------
+
+export const GETUSER_REQUEST = "GETUSER_REQUEST";
+export const GETUSER_SUCCESS = "GETUSER_SUCCESS";
+export const GETUSER_FAILURE = "GETUSER_FAILURE";
+
+//-----------------------------------------------------------
+
+export const POSTUSER_REQUEST = "POSTUSER_REQUEST";
+export const POSTUSER_SUCCESS = "POSTUSER_SUCCESS";
+export const POSTUSER_FAILURE = "POSTUSER_FAILURE";
+
+//-----------------------------------------------------------
+
+export const DELETEUSER_REQUEST = "DELETEUSER_REQUEST";
+export const DELETEUSER_SUCCESS = "DELETEUSER_SUCCESS";
+export const DELETEUSER_FAILURE = "DELETEUSER_FAILURE";
+
+//-----------------------------------------------------------
+
+export const CLEAR_HISTORY_REQUEST = "CLEAR_HISTORY_REQUEST";
+export const CLEAR_HISTORY_RESPONSE = "CLEAR_HISTORY_RESPONSE";
+export const CLEAR_HISTORY_ERROR = "CLEAR_HISTORY_ERROR";
+
+//-----------------------------------------------------------
+
+export const SET_SNACKBAR = "SET_SNACKBAR";
