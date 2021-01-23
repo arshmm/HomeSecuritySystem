@@ -53,6 +53,9 @@ const useStyles = makeStyles({
   heading: {
     flexGrow: 1,
   },
+  topButton: {
+    margin: "1rem",
+  },
 });
 
 const Detections = () => {
@@ -77,6 +80,9 @@ const Detections = () => {
   const clearHistory = () => {
     dispatch(clearDetections(token));
   };
+  const fetchNewData = () => {
+    dispatch(fetchDetections(token));
+  };
   return (
     <Layout>
       {loading ? (
@@ -85,7 +91,18 @@ const Detections = () => {
         <Fragment>
           <div className={classes.headingDiv}>
             <h2 className={classes.heading}>Detections</h2>
-            <Button color="inherit" onClick={clearHistory}>
+            <Button
+              className={classes.topButton}
+              color="inherit"
+              onClick={fetchNewData}
+            >
+              Fetch Detections
+            </Button>
+            <Button
+              className={classes.topButton}
+              color="inherit"
+              onClick={clearHistory}
+            >
               Clear history
             </Button>
           </div>

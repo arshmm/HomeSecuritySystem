@@ -39,7 +39,7 @@ module.exports.delete_user = async (req, res) => {
     const id = req.params.id;
     const data = await User.findOneAndDelete({ _id: id });
     const path = "./" + data.image;
-    fs.unlink(path, (err) => {});
+    fs.unlinkSync(path);
     return res.status(200).json(data);
   } catch (error) {
     return res.status(400).json({
@@ -62,7 +62,9 @@ module.exports.get_detectionData = async (req, res) => {
 module.exports.clear_detectionData = async (req, res) => {
   try {
     const data = await Detections.deleteMany({});
-
+    fs.readdir("./unknown_images", (err, file) => {
+      fs.unlinkSync(`./unknown_images/${file}`);
+    });
     return res.status(200).json(data);
   } catch (error) {
     return res.status(400).json({
