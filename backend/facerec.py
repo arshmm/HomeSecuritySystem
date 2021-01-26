@@ -1,3 +1,4 @@
+import picamera
 from cv2 import cv2
 import numpy as np
 import face_recognition
@@ -29,16 +30,28 @@ for a in mylist:
 known_encodings = findEncoding(images)
 print('Encodings done')
 
-webcam = cv2.VideoCapture(0)
+# uncomment for a desktop
+#webcam = cv2.VideoCapture(0)
+
+
+camera = picamera.PiCamera()
+camera.resolution = (320, 240)
+output = np.empty((240, 320, 3), dtype=np.uint8)
+
+
 count = 0
 timer = 0
 while True:
     success, img = webcam.read()
+    # uncomment for a desktop
     # camImg = cv2.resize(img, (0, 0), None, 0.25, 0.25)
-    camImg = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-
-    locationCamImage = face_recognition.face_locations(camImg)
-    encodeCamImage = face_recognition.face_encodings(camImg, locationCamImage)
+    #camImg = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    camera.capture(output, format="rgb")
+    # uncomment for a desktop
+    #locationCamImage = face_recognition.face_locations(camImg)
+    #ncodeCamImage = face_recognition.face_encodings(camImg, locationCamImage)
+    locationCamImage = face_recognition.face_locations(output)
+    encodeCamImage = face_recognition.face_encodings(output, locationCamImage)
 
     # inititalizing an array to save the names of the detected users
     face_names = []
@@ -79,14 +92,14 @@ while True:
                 count += 1
                 print("Status: ", r.status_code)
             timer += 1
-
-        y1, x2, y2, x1 = location
+        # uncomment blelow for a desktop
+      #  y1, x2, y2, x1 = location
       # y1, x2, y2, x1 = y1*4, x2*4, y2*4, x1*4
-        cv2.rectangle(img, (x1, y1), (x2, y2), (0, 0, 255), 2)
-        cv2.putText(img, name, (x1+6, y2-6),
-                    cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 1)
+        #cv2.rectangle(img, (x1, y1), (x2, y2), (0, 0, 255), 2)
+        # cv2.putText(img, name, (x1+6, y2-6),
+         #           cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 1)
 
-    cv2.imshow('webcam', img)
-    if cv2.waitKey(10) == ord('q'):  # wait until 'q' key is pressed
-        webcam.release()
-        cv2.destroyAllWindows()
+    #cv2.imshow('webcam', img)
+    # if cv2.waitKey(10) == ord('q'):  # wait until 'q' key is pressed
+        #   webcam.release()
+      #  cv2.destroyAllWindows()
